@@ -16,7 +16,7 @@ class ContactListTab extends StatelessWidget {
           backgroundColor: AppColors.primaryBlue,
           shape: CircleBorder(),
           onPressed: () {
-            Get.toNamed(Routes.CONTACTDETAILS);
+            Get.toNamed(Routes.CONTACTDETAILS, arguments: {'isUpdate': false});
           },
           child: Icon(
             Icons.add,
@@ -58,6 +58,47 @@ class ContactListTab extends StatelessWidget {
                 ),
               ),
             ),
+            Obx(() => Expanded(
+                child: ListView.builder(
+                    padding: EdgeInsets.all(10.0),
+                    physics: const ClampingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: controller.contactLists.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      String firstC =
+                          controller.contactLists[index].firstname![0];
+                      String lastC =
+                          controller.contactLists[index].lastname![0];
+
+                      return GestureDetector(
+                        onTap: () async {
+                          Get.toNamed(Routes.CONTACTDETAILS, arguments: {
+                            'item': controller.contactLists[index],
+                            'isUpdate': true
+                          });
+                        },
+                        child: Container(
+                          height: 60.0,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: AppColors.primaryBlue,
+                                radius: 25.0,
+                                child: ClipOval(
+                                  child: Text('$firstC' '$lastC'),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 10.0,
+                              ),
+                              Text(
+                                  '${controller.contactLists[index].firstname} ${controller.contactLists[index].lastname}')
+                            ],
+                          ),
+                        ),
+                      );
+                    })))
           ],
         ),
       );

@@ -12,6 +12,7 @@ class LoginPageController extends GetxController {
 
   Future<void> loginOnClicked(String usernameStr, BuildContext context) async {
     // if (usernameStr.isNotEmpty && usernameStr.length > 10) {
+
     await Get.offAndToNamed(Routes.HOME);
     // } else {
     // const snackBar = SnackBar(

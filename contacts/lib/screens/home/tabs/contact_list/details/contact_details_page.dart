@@ -28,20 +28,6 @@ class ContactDetailsPage extends StatelessWidget {
                 radius: 50.0,
                 child: ClipOval(
                   child: Text('AS'),
-                  // child: avatarImgUrl != null && avatarImgUrl!.isNotEmpty
-                  //     ? CachedNetworkImage(
-                  //         imageUrl: avatarImgUrl!,
-                  //         fit: BoxFit.fill,
-                  //         errorWidget: (context, url, error) =>
-                  //             EmptyImageWidget(),
-                  //         placeholder: (context, url) => EmptyImageWidget(),
-                  //       )
-                  //     : Center(
-                  //         child: Text(
-                  //         username ?? "",
-                  //         style: AppTextStyles.medium_h3
-                  //             .copyWith(color: AppColors.white),
-                  //       )),
                 ),
               ),
               _mainInfoWidget(controller),
@@ -51,7 +37,7 @@ class ContactDetailsPage extends StatelessWidget {
                 padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                 child: ElevatedButton(
                     onPressed: () async {},
-                    child: Text('Login',
+                    child: Text(controller.isUpdate.value ? "Update" : "Save",
                         style: TextStyle(
                           color: AppColors.primaryWhite,
                         )),
@@ -59,19 +45,22 @@ class ContactDetailsPage extends StatelessWidget {
                       backgroundColor: AppColors.primaryBlue,
                     )),
               ),
-              Container(
-                width: Get.width,
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                child: ElevatedButton(
-                    onPressed: () async {},
-                    child: Text('Remove',
-                        style: TextStyle(
-                          color: AppColors.primaryRed,
-                        )),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryTransparent,
-                    )),
-              ),
+              controller.isUpdate.value
+                  ? Container(
+                      width: Get.width,
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                      child: ElevatedButton(
+                          onPressed: () async {},
+                          child: Text('Remove',
+                              style: TextStyle(
+                                color: AppColors.primaryRed,
+                              )),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: AppColors.primaryTransparent,
+                          )),
+                    )
+                  : SizedBox.shrink(),
             ],
           ),
         ),
@@ -94,19 +83,22 @@ class ContactDetailsPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
               controller: controller.firstNameTextController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                floatingLabelStyle: TextStyle(color: AppColors.primaryBlack),
-                enabledBorder: OutlineInputBorder(
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                floatingLabelStyle:
+                    const TextStyle(color: AppColors.primaryBlack),
+                enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.primaryBlue),
                 ),
-                focusedBorder: OutlineInputBorder(
+                focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.primaryBlue),
                 ),
                 hoverColor: AppColors.primaryBlue,
                 fillColor: AppColors.primaryBlue,
                 focusColor: AppColors.primaryBlue,
-                labelText: "Enter first name",
+                labelText: controller.isUpdate.value
+                    ? controller.listData.value.firstname
+                    : "Enter first name",
               ),
             ),
           ),
@@ -114,19 +106,22 @@ class ContactDetailsPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
               controller: controller.lastNameTextController,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                floatingLabelStyle: TextStyle(color: AppColors.primaryBlack),
-                enabledBorder: OutlineInputBorder(
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(),
+                floatingLabelStyle:
+                    const TextStyle(color: AppColors.primaryBlack),
+                enabledBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.primaryBlue),
                 ),
-                focusedBorder: OutlineInputBorder(
+                focusedBorder: const OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.primaryBlue),
                 ),
                 hoverColor: AppColors.primaryBlue,
                 fillColor: AppColors.primaryBlue,
                 focusColor: AppColors.primaryBlue,
-                labelText: "Enter last name",
+                labelText: controller.isUpdate.value
+                    ? controller.listData.value.lastname
+                    : "Enter last name",
               ),
             ),
           ),
@@ -150,7 +145,7 @@ class ContactDetailsPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
               controller: controller.emailTextController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 floatingLabelStyle: TextStyle(color: AppColors.primaryBlack),
                 enabledBorder: OutlineInputBorder(
@@ -162,7 +157,9 @@ class ContactDetailsPage extends StatelessWidget {
                 hoverColor: AppColors.primaryBlue,
                 fillColor: AppColors.primaryBlue,
                 focusColor: AppColors.primaryBlue,
-                labelText: "Enter first name",
+                labelText: controller.isUpdate.value
+                    ? controller.listData.value.email ?? ""
+                    : "Enter email",
               ),
             ),
           ),
@@ -170,7 +167,7 @@ class ContactDetailsPage extends StatelessWidget {
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
               controller: controller.dobTextController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 border: OutlineInputBorder(),
                 floatingLabelStyle: TextStyle(color: AppColors.primaryBlack),
                 enabledBorder: OutlineInputBorder(
@@ -182,7 +179,9 @@ class ContactDetailsPage extends StatelessWidget {
                 hoverColor: AppColors.primaryBlue,
                 fillColor: AppColors.primaryBlue,
                 focusColor: AppColors.primaryBlue,
-                labelText: "Enter last name",
+                labelText: controller.isUpdate.value
+                    ? controller.listData.value.dob ?? ""
+                    : "Enter birthday",
               ),
             ),
           ),
