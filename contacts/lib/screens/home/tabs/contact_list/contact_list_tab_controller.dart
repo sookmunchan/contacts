@@ -12,6 +12,7 @@ class ContactListTabController extends GetxController {
   RxList<ContactListData> contactLists = <ContactListData>[].obs;
   RxList<ContactListData> filterContactLists = <ContactListData>[].obs;
   RxBool isSearch = false.obs;
+  RxInt selectedUserId = 0.obs;
 
   @override
   Future<void> onInit() async {
@@ -24,6 +25,8 @@ class ContactListTabController extends GetxController {
         List<ContactListData>.from(contactLists.toList());
 
     print("listtab::${contactLists.length}");
+
+    selectedUserId.value = await StorageService().getUserIndex();
   }
 
   onSearchTextChanged(String searchQuery) async {

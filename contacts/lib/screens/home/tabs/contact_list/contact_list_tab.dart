@@ -112,7 +112,9 @@ class ContactListTab extends StatelessWidget {
                                     backgroundColor: AppColors.primaryBlue,
                                     radius: 25.0,
                                     child: ClipOval(
-                                      child: Text('$firstC' '$lastC',
+                                      child: Text(
+                                          '$firstC'
+                                          '$lastC',
                                           style: TextStyle(
                                               color: AppColors.primaryWhite,
                                               fontSize: 14,
@@ -123,7 +125,8 @@ class ContactListTab extends StatelessWidget {
                                     width: 10.0,
                                   ),
                                   Text(
-                                      '${controller.filterContactLists[index].firstname} ${controller.filterContactLists[index].lastname}')
+                                      '${controller.filterContactLists[index].firstname} ${controller.filterContactLists[index].lastname}'
+                                      '  ${controller.selectedUserId.value == index ? '(you)' : ''}')
                                 ],
                               ),
                             ),
