@@ -12,14 +12,23 @@ class LoginPage extends StatelessWidget {
     return GetBuilder<LoginPageController>(builder: (controller) {
       return Scaffold(
         body: SafeArea(
-            child: Column(children: [
-          Text("Hi there!"),
-          Text("Please login to see your contact list"),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text("Hi there!",
+              style: TextStyle(
+                  color: AppColors.primaryBlack,
+                  fontSize: 30.0,
+                  fontWeight: FontWeight.bold)),
+          Text("Please login to see your contact list",
+              style: TextStyle(
+                  color: AppColors.primaryBlack,
+                  fontSize: 20.0,
+                  fontWeight: FontWeight.bold)),
           SizedBox(
-            height: 50.0,
+            height: 30.0,
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: TextField(
               controller: controller.usernameTextController,
               decoration: const InputDecoration(
@@ -38,15 +47,21 @@ class LoginPage extends StatelessWidget {
               ),
             ),
           ),
-          ElevatedButton(
-              onPressed: () async {
-                controller.loginOnClicked(
-                    controller.usernameTextController.text, context);
-              },
-              child: Text('Login'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primaryBlue.withOpacity(0.1),
-              ))
+          Container(
+            width: Get.width - 20.0,
+            child: ElevatedButton(
+                onPressed: () async {
+                  controller.loginOnClicked(
+                      controller.usernameTextController.text, context);
+                },
+                child: Text(
+                  'Login',
+                  style: TextStyle(color: AppColors.primaryWhite),
+                ),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primaryBlue,
+                )),
+          )
         ])),
       );
     });

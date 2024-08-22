@@ -8,20 +8,20 @@ class ContactListData {
   ContactListData(
       {this.id, this.firstname, this.lastname, this.email, this.dob});
 
-  ContactListData.fromJson(Map json)
-      : id = json['id'],
-        firstname = json['firstName'],
-        lastname = json['lastName'],
-        email = json['email'] as String?,
-        dob = json['dob'] as String?;
+  factory ContactListData.fromJson(Map<String, dynamic> json) =>
+      ContactListData(
+        id: json['id'] as String?,
+        firstname: json['firstName'] as String?,
+        lastname: json['lastName'] as String?,
+        email: json['email'] as String?,
+        dob: json['dob'] as String?,
+      );
 
-  Map toJson() {
-    return {
-      'id': id,
-      'firstname': firstname,
-      'lastname': lastname,
-      'email': email,
-      'dob': dob
-    };
-  }
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'id': id,
+        'firstName': firstname,
+        'lastName': lastname,
+        'email': email,
+        'dob': dob,
+      };
 }

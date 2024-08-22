@@ -12,18 +12,19 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<HomePageController>(builder: (controller) {
       return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: AppColors.primaryWhite,
-          currentIndex: controller.currentIndex.value,
-          onTap: (index) {
-            controller.currentIndex.value = index;
-            print('test index::$index');
-          },
-          items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-          ],
-        ),
+        bottomNavigationBar: Obx(() => BottomNavigationBar(
+              backgroundColor: AppColors.primaryWhite,
+              currentIndex: controller.currentIndex.value,
+              onTap: (index) {
+                controller.currentIndex.value = index;
+                print('test index::$index');
+              },
+              items: const [
+                BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+                BottomNavigationBarItem(
+                    icon: Icon(Icons.person), label: 'Profile'),
+              ],
+            )),
         body: SafeArea(
             child: Obx(() => IndexedStack(
                   index: controller.currentIndex.value,

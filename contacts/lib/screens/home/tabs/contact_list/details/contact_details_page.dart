@@ -15,53 +15,78 @@ class ContactDetailsPage extends StatelessWidget {
           backgroundColor: AppColors.primaryWhite,
           title: const Text('Contact Details'),
         ),
-        body: Container(
-          margin: EdgeInsets.symmetric(vertical: 5.0),
-          padding: EdgeInsets.symmetric(vertical: 15.0),
-          color: AppColors.primaryWhite,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                backgroundColor: AppColors.primaryBlue,
-                radius: 50.0,
-                child: ClipOval(
-                  child: Text('AS'),
+        body: SingleChildScrollView(
+          physics: ClampingScrollPhysics(),
+          child: Container(
+            margin: EdgeInsets.symmetric(vertical: 5.0),
+            padding: EdgeInsets.symmetric(vertical: 15.0),
+            color: AppColors.primaryWhite,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                CircleAvatar(
+                  backgroundColor: AppColors.primaryBlue,
+                  radius: 50.0,
+                  child: ClipOval(
+                    child: controller.isUpdate.value
+                        ? Text(
+                            controller.displayName.value,
+                            style: TextStyle(
+                                color: AppColors.primaryWhite,
+                                fontSize: 35,
+                                fontWeight: FontWeight.normal),
+                          )
+                        : Icon(
+                            Icons.person,
+                            color: AppColors.primaryWhite,
+                            size: 60.0,
+                          ),
+                  ),
                 ),
-              ),
-              _mainInfoWidget(controller),
-              _subInfoWidget(controller),
-              Container(
-                width: Get.width,
-                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                child: ElevatedButton(
-                    onPressed: () async {},
-                    child: Text(controller.isUpdate.value ? "Update" : "Save",
-                        style: TextStyle(
-                          color: AppColors.primaryWhite,
-                        )),
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryBlue,
-                    )),
-              ),
-              controller.isUpdate.value
-                  ? Container(
-                      width: Get.width,
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-                      child: ElevatedButton(
-                          onPressed: () async {},
-                          child: Text('Remove',
-                              style: TextStyle(
-                                color: AppColors.primaryRed,
-                              )),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primaryTransparent,
+                Obx(() => controller.contactLists.length > 0
+                    ? _mainInfoWidget(controller)
+                    : SizedBox.shrink()),
+                Obx(() => controller.contactLists.length > 0
+                    ? _subInfoWidget(controller)
+                    : SizedBox.shrink()),
+                Container(
+                  width: Get.width,
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                  child: ElevatedButton(
+                      onPressed: () async {
+                        controller.isUpdate.value
+                            ? controller.updateData()
+                            : controller.insertData(context);
+                      },
+                      child: Text(controller.isUpdate.value ? "Update" : "Save",
+                          style: TextStyle(
+                            color: AppColors.primaryWhite,
                           )),
-                    )
-                  : SizedBox.shrink(),
-            ],
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryBlue,
+                      )),
+                ),
+                controller.isUpdate.value && !controller.isMe.value
+                    ? Container(
+                        width: Get.width,
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                        child: ElevatedButton(
+                            onPressed: () async {
+                              controller.deleteData();
+                            },
+                            child: Text('Remove',
+                                style: TextStyle(
+                                  color: AppColors.primaryRed,
+                                )),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primaryWhite,
+                            )),
+                      )
+                    : SizedBox.shrink(),
+              ],
+            ),
           ),
         ),
       );
@@ -96,14 +121,17 @@ class ContactDetailsPage extends StatelessWidget {
                 hoverColor: AppColors.primaryBlue,
                 fillColor: AppColors.primaryBlue,
                 focusColor: AppColors.primaryBlue,
-                labelText: controller.isUpdate.value
-                    ? controller.listData.value.firstname
+                labelText: (controller.isUpdate.value &&
+                        controller.contactLists[controller.selectedIndex.value]
+                                .firstname?.isNotEmpty ==
+                            true)
+                    ? ''
                     : "Enter first name",
               ),
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: TextField(
               controller: controller.lastNameTextController,
               decoration: InputDecoration(
@@ -119,8 +147,11 @@ class ContactDetailsPage extends StatelessWidget {
                 hoverColor: AppColors.primaryBlue,
                 fillColor: AppColors.primaryBlue,
                 focusColor: AppColors.primaryBlue,
-                labelText: controller.isUpdate.value
-                    ? controller.listData.value.lastname
+                labelText: (controller.isUpdate.value &&
+                        controller.contactLists[controller.selectedIndex.value]
+                                .lastname?.isNotEmpty ==
+                            true)
+                    ? ''
                     : "Enter last name",
               ),
             ),
@@ -157,14 +188,17 @@ class ContactDetailsPage extends StatelessWidget {
                 hoverColor: AppColors.primaryBlue,
                 fillColor: AppColors.primaryBlue,
                 focusColor: AppColors.primaryBlue,
-                labelText: controller.isUpdate.value
-                    ? controller.listData.value.email ?? ""
+                labelText: controller.isUpdate.value &&
+                        (controller.contactLists[controller.selectedIndex.value]
+                                .email?.isNotEmpty ==
+                            true)
+                    ? ''
                     : "Enter email",
               ),
             ),
           ),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: TextField(
               controller: controller.dobTextController,
               decoration: InputDecoration(
@@ -179,8 +213,11 @@ class ContactDetailsPage extends StatelessWidget {
                 hoverColor: AppColors.primaryBlue,
                 fillColor: AppColors.primaryBlue,
                 focusColor: AppColors.primaryBlue,
-                labelText: controller.isUpdate.value
-                    ? controller.listData.value.dob ?? ""
+                labelText: (controller.isUpdate.value &&
+                        controller.contactLists[controller.selectedIndex.value]
+                                .dob?.isNotEmpty ==
+                            true)
+                    ? ''
                     : "Enter birthday",
               ),
             ),
