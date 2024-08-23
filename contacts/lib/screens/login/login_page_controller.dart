@@ -36,7 +36,6 @@ class LoginPageController extends GetxController {
           b.firstname!.toLowerCase(),
         ));
     contactLists.refresh();
-    await StorageService().storeContactList(contactLists);
 
     if (selectedUserId >= 0) {
       await Get.offAndToNamed(Routes.HOME);
@@ -50,7 +49,6 @@ class LoginPageController extends GetxController {
       print('isLogin::$index');
 
       if (index >= 0) {
-        await StorageService().storeUserInfo(contactLists[index]);
         await StorageService().storeSelectedUserIndex(index);
         await Get.offAndToNamed(Routes.HOME);
       }

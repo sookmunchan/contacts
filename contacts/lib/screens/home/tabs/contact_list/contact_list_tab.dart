@@ -64,7 +64,7 @@ class ContactListTab extends StatelessWidget {
                 ),
               ),
             ),
-            Obx(() => controller.contactLists.length > 0
+            Obx(() => (controller.contactLists.isNotEmpty)
                 ? Expanded(
                     child: ListView.builder(
                         padding: EdgeInsets.all(10.0),
@@ -102,34 +102,35 @@ class ContactListTab extends StatelessWidget {
                                 });
                               }
                             },
-                            child: Container(
-                              color: AppColors.primaryWhite,
-                              height: 60.0,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  CircleAvatar(
-                                    backgroundColor: AppColors.primaryBlue,
-                                    radius: 25.0,
-                                    child: ClipOval(
-                                      child: Text(
-                                          '$firstC'
-                                          '$lastC',
-                                          style: TextStyle(
-                                              color: AppColors.primaryWhite,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal)),
-                                    ),
+                            child: Obx(() => Container(
+                                  color: AppColors.primaryWhite,
+                                  height: 60.0,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      CircleAvatar(
+                                        backgroundColor: AppColors.primaryBlue,
+                                        radius: 25.0,
+                                        child: ClipOval(
+                                          child: Text(
+                                              '$firstC'
+                                              '$lastC',
+                                              style: TextStyle(
+                                                  color: AppColors.primaryWhite,
+                                                  fontSize: 14,
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      Text(
+                                          '${controller.filterContactLists[index].firstname} ${controller.filterContactLists[index].lastname}'
+                                          '  ${controller.selectedUserId.value == index ? '(you)' : ''}')
+                                    ],
                                   ),
-                                  SizedBox(
-                                    width: 10.0,
-                                  ),
-                                  Text(
-                                      '${controller.filterContactLists[index].firstname} ${controller.filterContactLists[index].lastname}'
-                                      '  ${controller.selectedUserId.value == index ? '(you)' : ''}')
-                                ],
-                              ),
-                            ),
+                                )),
                           );
                         }))
                 : SizedBox.shrink())

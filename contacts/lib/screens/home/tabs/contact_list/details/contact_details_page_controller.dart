@@ -59,23 +59,15 @@ class ContactDetailsPageController extends GetxController {
     contactLists[selectedIndex.value].email = emailTextController.text;
     contactLists[selectedIndex.value].dob = dobTextController.text;
 
-    if (isMe.value) {
-      await StorageService()
-          .updateData(contactLists[selectedIndex.value])
-          .then((value) async {
-        await Get.find<ProfileTabController>()
-            .onInit()
-            .then((value) => Get.back());
+    await StorageService()
+        .updateData(contactLists[selectedIndex.value])
+        .then((value) async {
+      await Get.find<ContactListTabController>().onInit().then((value) async {
+        await Get.find<ProfileTabController>().onInit().then((value) async {
+          Get.back();
+        });
       });
-    } else {
-      await StorageService()
-          .updateData(contactLists[selectedIndex.value])
-          .then((value) async {
-        await Get.find<ContactListTabController>()
-            .onInit()
-            .then((value) => Get.back());
-      });
-    }
+    });
   }
 
   Future<void> insertData(BuildContext context) async {

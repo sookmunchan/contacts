@@ -20,14 +20,6 @@ class StorageService extends GetxService {
     return await storage.read('selectedUserIndex') ?? -1;
   }
 
-  Future<void> storeUserInfo(ContactListData userInfo) async {
-    await storage.write('userInfo', jsonEncode(userInfo));
-  }
-
-  Future<void> storeContactList(List<ContactListData> contactList) async {
-    await storage.write('contactLists', jsonEncode(contactList));
-  }
-
   List<ContactListData> getContactLists() {
     if (storage.read('contactLists') == null) {
       return <ContactListData>[];
